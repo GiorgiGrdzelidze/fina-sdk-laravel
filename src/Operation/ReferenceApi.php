@@ -51,16 +51,6 @@ final class ReferenceApi extends BaseApi
     {
         $data = $this->get('getCustomers', [], 'operation.getCustomers returned ex');
         
-        // Debug: Log the raw response
-        if (app()->environment('local')) {
-            \Log::info('FINA Customers Raw Response', [
-                'data_keys' => array_keys($data),
-                'has_contragents' => isset($data['contragents']),
-                'contragents_count' => isset($data['contragents']) ? count($data['contragents']) : 0,
-                'ex' => $data['ex'] ?? null,
-            ]);
-        }
-        
         // The API returns customers under 'contragents' key
         return (array) ($data['contragents'] ?? []);
     }
@@ -69,23 +59,64 @@ final class ReferenceApi extends BaseApi
     {
         $data = $this->get('getVendors', [], 'operation.getVendors returned ex');
         
-        // The API returns vendors under 'vendors' key
-        return (array) ($data['vendors'] ?? []);
+        // The API returns vendors under 'contragents' key (same as customers)
+        return (array) ($data['contragents'] ?? []);
     }
 
     public function customerGroups(): array
     {
-        return $this->get('getCustomerGroups', [], 'operation.getCustomerGroups returned ex');
+        $data = $this->get('getCustomerGroups', [], 'operation.getCustomerGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
     }
 
     public function vendorGroups(): array
     {
-        return $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
+        $data = $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
     }
 
     public function productGroups(): array
     {
-        return $this->get('getProductGroups', [], 'operation.getProductGroups returned ex');
+        $data = $this->get('getProductGroups', [], 'operation.getProductGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
+    }
+
+    public function webProductGroups(): array
+    {
+        $data = $this->get('getWebProductGroups', [], 'operation.getWebProductGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
+    }
+
+    public function providedServiceGroups(): array
+    {
+        $data = $this->get('getProvidedServiceGroups', [], 'operation.getProvidedServiceGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
+    }
+
+    public function receivedServiceGroups(): array
+    {
+        $data = $this->get('getReceivedServiceGroups', [], 'operation.getReceivedServiceGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
+    }
+
+    public function inventoryGroups(): array
+    {
+        $data = $this->get('getInventoryGroups', [], 'operation.getInventoryGroups returned ex');
+        
+        // The API returns groups under 'groups' key
+        return (array) ($data['groups'] ?? []);
     }
 
     public function terminals(): array

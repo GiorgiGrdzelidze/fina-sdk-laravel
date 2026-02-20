@@ -1,0 +1,23 @@
+parameters:
+    level: 6
+    paths:
+        - src
+        - tests
+    tmpDir: .phpstan.cache
+    treatPhpDocTypesAsCertain: false
+    parallel:
+        maximumNumberOfProcesses: 1
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: method.alreadyNarrowedType
+        -
+            identifier: nullsafe.neverNull
+        -
+            identifier: notIdentical.alwaysTrue
+        -
+            identifier: nullCoalesce.offset
+        -
+            identifier: argument.type
+            path: src/Operation/ProductsApi.php

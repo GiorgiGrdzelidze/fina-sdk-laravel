@@ -1,0 +1,71 @@
+{
+    "name": "fina/fina-sdk-laravel",
+    "description": "Laravel SDK for integrating with FINA Web API (v6.0). Provides authentication, HTTP client, and typed endpoints.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "fina",
+        "sdk",
+        "laravel",
+        "api",
+        "client",
+        "integration"
+    ],
+    "homepage": "https://github.com/GiorgiGrdzelidze/fina-sdk-laravel",
+    "support": {
+        "issues": "https://github.com/GiorgiGrdzelidze/fina-sdk-laravel/issues",
+        "source": "https://github.com/GiorgiGrdzelidze/fina-sdk-laravel"
+    },
+    "authors": [
+        {
+            "name": "Giorgi Grdzelidze",
+            "homepage": "https://github.com/GiorgiGrdzelidze",
+            "role": "Maintainer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "illuminate/cache": "^12.0",
+        "illuminate/http": "^12.0",
+        "illuminate/support": "^12.0",
+        "illuminate/validation": "^12.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.18",
+        "orchestra/testbench": "^10.0",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Fina\\Sdk\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fina\\Sdk\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Fina\\Sdk\\Laravel\\FinaSdkServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpstan": "phpstan analyse",
+        "pint": "pint",
+        "ci": [
+            "@test",
+            "@phpstan",
+            "@pint -- --test"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

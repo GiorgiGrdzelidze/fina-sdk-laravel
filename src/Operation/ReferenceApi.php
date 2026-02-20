@@ -50,7 +50,7 @@ final class ReferenceApi extends BaseApi
     public function customers(): array
     {
         $data = $this->get('getCustomers', [], 'operation.getCustomers returned ex');
-        
+
         // The API returns customers under 'contragents' key
         return (array) ($data['contragents'] ?? []);
     }
@@ -58,7 +58,7 @@ final class ReferenceApi extends BaseApi
     public function vendors(): array
     {
         $data = $this->get('getVendors', [], 'operation.getVendors returned ex');
-        
+
         // The API returns vendors under 'contragents' key (same as customers)
         return (array) ($data['contragents'] ?? []);
     }
@@ -66,7 +66,7 @@ final class ReferenceApi extends BaseApi
     public function customerGroups(): array
     {
         $data = $this->get('getCustomerGroups', [], 'operation.getCustomerGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -74,7 +74,7 @@ final class ReferenceApi extends BaseApi
     public function vendorGroups(): array
     {
         $data = $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -82,7 +82,7 @@ final class ReferenceApi extends BaseApi
     public function productGroups(): array
     {
         $data = $this->get('getProductGroups', [], 'operation.getProductGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -90,7 +90,7 @@ final class ReferenceApi extends BaseApi
     public function webProductGroups(): array
     {
         $data = $this->get('getWebProductGroups', [], 'operation.getWebProductGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -98,7 +98,7 @@ final class ReferenceApi extends BaseApi
     public function providedServiceGroups(): array
     {
         $data = $this->get('getProvidedServiceGroups', [], 'operation.getProvidedServiceGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -106,7 +106,7 @@ final class ReferenceApi extends BaseApi
     public function receivedServiceGroups(): array
     {
         $data = $this->get('getReceivedServiceGroups', [], 'operation.getReceivedServiceGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -114,7 +114,7 @@ final class ReferenceApi extends BaseApi
     public function inventoryGroups(): array
     {
         $data = $this->get('getInventoryGroups', [], 'operation.getInventoryGroups returned ex');
-        
+
         // The API returns groups under 'groups' key
         return (array) ($data['groups'] ?? []);
     }
@@ -282,7 +282,7 @@ final class ReferenceApi extends BaseApi
 
         // The API returns data under 'doc_types' key, not 'types'
         $rawTypes = (array) ($data['doc_types'] ?? []);
-        
+
         // Convert the API response to DocTypeDto objects
         return array_map(
             fn ($type) => DocTypeDto::fromArray((array) $type),

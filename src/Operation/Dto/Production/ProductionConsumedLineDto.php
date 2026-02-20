@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto\Production;
 
-final class ProductionConsumedLineDto
+final readonly class ProductionConsumedLineDto
 {
     public function __construct(
-        public readonly int $id,
-        public readonly float $selfCost,
-        public readonly float $quantity,
+        public int $id,
+        public float $selfCost,
+        public float $quantity,
     ) {}
 
     public static function fromArray(array $data): self

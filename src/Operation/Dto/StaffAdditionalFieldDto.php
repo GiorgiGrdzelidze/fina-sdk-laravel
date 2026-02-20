@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class StaffAdditionalFieldDto
+final readonly class StaffAdditionalFieldDto
 {
     public function __construct(
-        public readonly string $field,
-        public readonly string $value,
+        public string $field,
+        public string $value,
     ) {}
 
     public static function fromArray(array $data): self

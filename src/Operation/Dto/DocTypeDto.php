@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class DocTypeDto
+final readonly class DocTypeDto
 {
     public function __construct(
-        public readonly int $type,
-        public readonly string $name,
-        public readonly bool $apiSupported,
+        public int $type,
+        public string $name,
+        public bool $apiSupported,
     ) {}
 
     public static function fromArray(array $data): self

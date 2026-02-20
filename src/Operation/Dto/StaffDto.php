@@ -8,21 +8,21 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class StaffDto
+final readonly class StaffDto
 {
     /**
      * @param  StaffAdditionalFieldDto[]  $addFields
      */
     public function __construct(
-        public readonly int $id,
-        public readonly int $groupId,
-        public readonly string $name,
-        public readonly string $privateNum,
-        public readonly string $passportNum,
-        public readonly string $address,
-        public readonly string $tel,
-        public readonly string $comment,
-        public readonly array $addFields,
+        public int $id,
+        public int $groupId,
+        public string $name,
+        public string $privateNum,
+        public string $passportNum,
+        public string $address,
+        public string $tel,
+        public string $comment,
+        public array $addFields,
     ) {}
 
     public static function fromArray(array $data): self

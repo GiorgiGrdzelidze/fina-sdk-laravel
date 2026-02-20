@@ -8,25 +8,25 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto\Production;
 
-final class ProductionDocDto
+final readonly class ProductionDocDto
 {
     /**
      * @param  array<int,array{field:string,value:string}>  $addFields
      * @param  ProductionMaterialLineDto[]  $materials
      */
     public function __construct(
-        public readonly int $id,
-        public readonly string $date,
-        public readonly string $numPrefix,
-        public readonly int $num,
-        public readonly string $purpose,
-        public readonly float $amount,
-        public readonly int $store,
-        public readonly int $user,
-        public readonly bool $makeEntry,
-        public readonly int $productionType,
-        public readonly array $addFields = [],
-        public readonly array $materials = [],
+        public int $id,
+        public string $date,
+        public string $numPrefix,
+        public int $num,
+        public string $purpose,
+        public float $amount,
+        public int $store,
+        public int $user,
+        public bool $makeEntry,
+        public int $productionType,
+        public array $addFields = [],
+        public array $materials = [],
     ) {}
 
     public static function fromArray(array $data): self

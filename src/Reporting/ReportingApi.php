@@ -122,52 +122,61 @@ final class ReportingApi extends BaseApi
     // Journals (raw)
     // ---------------------------------------------------------------------
 
+    /** getCustomersOrderJournal (raw) */
     public function customersOrderJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getCustomersOrderJournal', $from, $to);
     }
 
+    /** getCustomersReturnJournal (raw) */
     public function customersReturnJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getCustomersReturnJournal', $from, $to);
     }
 
+    /** getCustomersMoneyJournal (raw) */
     public function customersMoneyJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getCustomersMoneyJournal', $from, $to);
     }
 
+    /** getVendorsMoneyJournal (raw) */
     public function vendorsMoneyJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getVendorsMoneyJournal', $from, $to);
     }
 
+    /** getProductionsJournal (raw) */
     public function productionsJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getProductionsJournal', $from, $to);
     }
 
+    /** getEntriesJournal (raw) */
     public function entriesJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getEntriesJournal', $from, $to);
     }
 
+    /** getDiscountCardsJournal (raw) */
     public function discountCardsJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getDiscountCardsJournal', $from, $to);
     }
 
-    // Optional (also present in doc)
+    /** getDocProvidedServicesJournal (raw) */
     public function providedServicesJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getDocProvidedServicesJournal', $from, $to);
     }
 
+    /** getDocReceivedServicesJournal (raw) */
     public function receivedServicesJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getDocReceivedServicesJournal', $from, $to);
     }
 
+    /** getRealizesJournal (raw) */
     public function realizesJournal(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getRealizesJournal', $from, $to);
@@ -177,16 +186,19 @@ final class ReportingApi extends BaseApi
     // Journals (chunked, timeout-safe)
     // ---------------------------------------------------------------------
 
+    /** getEntriesJournal (chunked, deduplicated) */
     public function entriesJournalChunked(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 7): array
     {
         return $this->getRangeChunked('getEntriesJournal', 'journals', $from, $to, $chunkDays);
     }
 
+    /** getCustomersMoneyJournal (chunked, deduplicated) */
     public function customersMoneyJournalChunked(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): array
     {
         return $this->getRangeChunked('getCustomersMoneyJournal', 'journals', $from, $to, $chunkDays);
     }
 
+    /** getVendorsMoneyJournal (chunked, deduplicated) */
     public function vendorsMoneyJournalChunked(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): array
     {
         return $this->getRangeChunked('getVendorsMoneyJournal', 'journals', $from, $to, $chunkDays);
@@ -196,21 +208,25 @@ final class ReportingApi extends BaseApi
     // Reports (raw)
     // ---------------------------------------------------------------------
 
+    /** getCustomersCycleReport (raw) */
     public function customersCycleReport(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getCustomersCycleReport', $from, $to);
     }
 
+    /** getVendorsCycleReport (raw) */
     public function vendorsCycleReport(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getVendorsCycleReport', $from, $to);
     }
 
+    /** getProductsLastInReport (raw) */
     public function productsLastInReport(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getProductsLastInReport', $from, $to);
     }
 
+    /** getProductsInReturnReport (raw) */
     public function productsInReturnReport(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->getRange('getProductsInReturnReport', $from, $to);
@@ -275,27 +291,9 @@ final class ReportingApi extends BaseApi
 
     public function entriesJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 7): EntriesJournalResponseDto
     {
-        $raw = $this->getRangeChunked(
-            method: 'getEntriesJournal',
-            collectionKey: 'journals',
-            from: $from,
-            to: $to,
-            chunkDays: $chunkDays,
-            dedupeKeyFn: static function (array $item): string {
-                $id = $item['id'] ?? null;
-                $ver = $item['version'] ?? null;
-                if ($id !== null && $ver !== null) {
-                    return 'idv:'.$id.':'.$ver;
-                }
-                if ($id !== null) {
-                    return 'id:'.$id;
-                }
-
-                return 'h:'.sha1(json_encode($item, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '');
-            }
+        return EntriesJournalResponseDto::fromArray(
+            $this->getRangeChunked('getEntriesJournal', 'journals', $from, $to, $chunkDays)
         );
-
-        return EntriesJournalResponseDto::fromArray($raw);
     }
 
     public function productsLastInReportTyped(DateTimeInterface $from, DateTimeInterface $to): ProductsLastInReportResponseDto

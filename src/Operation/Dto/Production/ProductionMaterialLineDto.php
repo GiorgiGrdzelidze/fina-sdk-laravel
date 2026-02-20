@@ -8,18 +8,18 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto\Production;
 
-final class ProductionMaterialLineDto
+final readonly class ProductionMaterialLineDto
 {
     /**
      * @param  ProductionConsumedLineDto[]  $consumeds
      * @param  ProductionExpenseLineDto[]  $expenses
      */
     public function __construct(
-        public readonly int $id,
-        public readonly float $selfCost,
-        public readonly float $quantity,
-        public readonly array $consumeds = [],
-        public readonly array $expenses = [],
+        public int $id,
+        public float $selfCost,
+        public float $quantity,
+        public array $consumeds = [],
+        public array $expenses = [],
     ) {}
 
     public static function fromArray(array $data): self

@@ -8,12 +8,12 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class UnitDto
+final readonly class UnitDto
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $name,
-        public readonly string $fullName,
+        public int $id,
+        public string $name,
+        public string $fullName,
     ) {}
 
     public static function fromArray(array $data): self

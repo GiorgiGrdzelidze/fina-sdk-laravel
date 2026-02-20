@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class BonusOperationResponse
+final readonly class BonusOperationResponse
 {
     public function __construct(
-        public readonly bool $res,
-        public readonly mixed $ex
+        public bool $res,
+        public mixed $ex
     ) {}
 
     public static function fromArray(array $data): self

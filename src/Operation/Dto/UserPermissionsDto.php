@@ -8,24 +8,26 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class UserPermissionsDto
+final readonly class UserPermissionsDto
 {
+    /**
+     * @param  int[]  $stores
+     * @param  int[]  $cashes
+     * @param  int[]  $priceTypes
+     * @param  int[]  $users
+     */
     public function __construct(
-        public readonly int $defaultStore,
-        public readonly int $defaultCash,
-        public readonly int $defaultPrice,
-        public readonly float $maxDiscount,
-        public readonly float $maxMoneyIn,
-        public readonly int $fiscalPrint,
-        /** @var int[] */
-        public readonly array $stores,
-        /** @var int[] */
-        public readonly array $cashes,
-        /** @var int[] */
-        public readonly array $priceTypes,
-        /** @var int[] */
-        public readonly array $users,
-        public readonly mixed $raw = null, // future-proof: keep original payload if needed
+        public int $defaultStore,
+        public int $defaultCash,
+        public int $defaultPrice,
+        public float $maxDiscount,
+        public float $maxMoneyIn,
+        public int $fiscalPrint,
+        public array $stores,
+        public array $cashes,
+        public array $priceTypes,
+        public array $users,
+        public mixed $raw = null,
     ) {}
 
     public static function fromArray(array $data): self

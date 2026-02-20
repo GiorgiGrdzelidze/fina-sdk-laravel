@@ -8,16 +8,16 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class GiftCardDto
+final readonly class GiftCardDto
 {
     public function __construct(
-        public readonly int $id,
-        public readonly int $store,
-        public readonly string $code,
-        public readonly string $acc,
-        public readonly string $issuanceDate,
-        public readonly float $amount,
-        public readonly float $payAmount,
+        public int $id,
+        public int $store,
+        public string $code,
+        public string $acc,
+        public string $issuanceDate,
+        public float $amount,
+        public float $payAmount,
     ) {}
 
     public static function fromArray(array $data): self

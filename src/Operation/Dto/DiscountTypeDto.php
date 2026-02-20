@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class DiscountTypeDto
+final readonly class DiscountTypeDto
 {
     public function __construct(
-        public readonly int $id,
-        public readonly float $discountPercent,
+        public int $id,
+        public float $discountPercent,
     ) {}
 
     public static function fromArray(array $data): self

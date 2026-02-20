@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class BonusCoeffResponse
+final readonly class BonusCoeffResponse
 {
     public function __construct(
-        public readonly float $coeff,
-        public readonly mixed $ex
+        public float $coeff,
+        public mixed $ex
     ) {}
 
     public static function fromArray(array $data): self

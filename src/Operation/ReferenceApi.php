@@ -37,16 +37,19 @@ final class ReferenceApi extends BaseApi
     // Raw reference endpoints
     // -----------------------
 
+    /** GET api/operation/getStores */
     public function stores(): array
     {
         return $this->get('getStores', [], 'operation.getStores returned ex');
     }
 
+    /** GET api/operation/getProjects */
     public function projects(): array
     {
         return $this->get('getProjects', [], 'operation.getProjects returned ex');
     }
 
+    /** GET api/operation/getCustomers — returns contragents[] */
     public function customers(): array
     {
         $data = $this->get('getCustomers', [], 'operation.getCustomers returned ex');
@@ -55,6 +58,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['contragents'] ?? []);
     }
 
+    /** GET api/operation/getVendors — returns contragents[] */
     public function vendors(): array
     {
         $data = $this->get('getVendors', [], 'operation.getVendors returned ex');
@@ -63,6 +67,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['contragents'] ?? []);
     }
 
+    /** GET api/operation/getCustomerGroups — returns groups[] */
     public function customerGroups(): array
     {
         $data = $this->get('getCustomerGroups', [], 'operation.getCustomerGroups returned ex');
@@ -71,6 +76,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getVendorGroups — returns groups[] */
     public function vendorGroups(): array
     {
         $data = $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
@@ -79,6 +85,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getProductGroups — returns groups[] */
     public function productGroups(): array
     {
         $data = $this->get('getProductGroups', [], 'operation.getProductGroups returned ex');
@@ -87,6 +94,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getWebProductGroups — returns groups[] */
     public function webProductGroups(): array
     {
         $data = $this->get('getWebProductGroups', [], 'operation.getWebProductGroups returned ex');
@@ -95,6 +103,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getProvidedServiceGroups — returns groups[] */
     public function providedServiceGroups(): array
     {
         $data = $this->get('getProvidedServiceGroups', [], 'operation.getProvidedServiceGroups returned ex');
@@ -103,6 +112,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getReceivedServiceGroups — returns groups[] */
     public function receivedServiceGroups(): array
     {
         $data = $this->get('getReceivedServiceGroups', [], 'operation.getReceivedServiceGroups returned ex');
@@ -111,6 +121,7 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getInventoryGroups — returns groups[] */
     public function inventoryGroups(): array
     {
         $data = $this->get('getInventoryGroups', [], 'operation.getInventoryGroups returned ex');
@@ -119,21 +130,25 @@ final class ReferenceApi extends BaseApi
         return (array) ($data['groups'] ?? []);
     }
 
+    /** GET api/operation/getTerminals */
     public function terminals(): array
     {
         return $this->get('getTerminals', [], 'operation.getTerminals returned ex');
     }
 
+    /** GET api/operation/getCashes */
     public function cashes(): array
     {
         return $this->get('getCashes', [], 'operation.getCashes returned ex');
     }
 
+    /** GET api/operation/getCreditBanks */
     public function creditBanks(): array
     {
         return $this->get('getCreditBanks', [], 'operation.getCreditBanks returned ex');
     }
 
+    /** GET api/operation/getPriceTypes */
     public function priceTypes(): array
     {
         return $this->get('getPriceTypes', [], 'operation.getPriceTypes returned ex');
@@ -328,6 +343,7 @@ final class ReferenceApi extends BaseApi
         ));
     }
 
+    /** Find a single doc type by its numeric type ID (uncached). */
     public function findDocType(int $id): ?DocTypeDto
     {
         foreach ($this->docTypes() as $t) {
@@ -339,6 +355,7 @@ final class ReferenceApi extends BaseApi
         return null;
     }
 
+    /** Check whether a doc type is API-supported (uncached). */
     public function isDocTypeSupported(int $id): bool
     {
         $t = $this->findDocType($id);

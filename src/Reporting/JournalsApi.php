@@ -92,11 +92,13 @@ final class JournalsApi extends BaseApi
         return $this->range('getDocProvidedServicesJournal', $from, $to);
     }
 
+    /** getDocReceivedServicesJournal */
     public function receivedServices(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->range('getDocReceivedServicesJournal', $from, $to);
     }
 
+    /** getRealizesJournal */
     public function realizes(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->range('getRealizesJournal', $from, $to);

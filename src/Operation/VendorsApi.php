@@ -20,26 +20,46 @@ final class VendorsApi extends BaseApi
         parent::__construct($client, 'operation');
     }
 
+    /**
+     * getVendorsByCode - Vendors by identification code
+     * GET api/operation/getVendorsByCode/{code}
+     */
     public function getByCode(string $code): array
     {
         return $this->get('getVendorsByCode/'.rawurlencode($code), [], 'operation.getVendorsByCode returned ex');
     }
 
+    /**
+     * getVendors - Vendors list
+     * GET api/operation/getVendors
+     */
     public function all(): array
     {
         return $this->get('getVendors', [], 'operation.getVendors returned ex');
     }
 
+    /**
+     * getVendorGroups - Vendor groups
+     * GET api/operation/getVendorGroups
+     */
     public function groups(): array
     {
         return $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
     }
 
+    /**
+     * getVendorAddresses - Vendor addresses
+     * GET api/operation/getVendorAddresses/{vendor_id}
+     */
     public function addresses(int $vendorId): array
     {
         return $this->get('getVendorAddresses/'.$vendorId, [], 'operation.getVendorAddresses returned ex');
     }
 
+    /**
+     * getVendorAdditionalFields - Vendor additional fields metadata
+     * GET api/operation/getVendorAdditionalFields
+     */
     public function additionalFields(): array
     {
         return $this->get('getVendorAdditionalFields', [], 'operation.getVendorAdditionalFields returned ex');

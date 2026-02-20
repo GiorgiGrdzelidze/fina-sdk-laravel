@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto\Production;
 
-final class ProductionExpenseLineDto
+final readonly class ProductionExpenseLineDto
 {
     public function __construct(
-        public readonly int $type,
-        public readonly float $amount,
+        public int $type,
+        public float $amount,
     ) {}
 
     public static function fromArray(array $data): self

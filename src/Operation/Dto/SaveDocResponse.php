@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class SaveDocResponse
+final readonly class SaveDocResponse
 {
     public function __construct(
-        public readonly int $id,
-        public readonly mixed $ex
+        public int $id,
+        public mixed $ex
     ) {}
 
     public static function fromArray(array $data): self

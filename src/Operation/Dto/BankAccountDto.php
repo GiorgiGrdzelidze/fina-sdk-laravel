@@ -8,14 +8,14 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final class BankAccountDto
+final readonly class BankAccountDto
 {
     public function __construct(
-        public readonly int $id,
-        public readonly string $code,
-        public readonly string $name,
-        public readonly string $account,
-        public readonly string $currency,
+        public int $id,
+        public string $code,
+        public string $name,
+        public string $account,
+        public string $currency,
     ) {}
 
     public static function fromArray(array $data): self

@@ -47,6 +47,47 @@ final class ReferenceApi extends BaseApi
         return $this->get('getProjects', [], 'operation.getProjects returned ex');
     }
 
+    public function customers(): array
+    {
+        $data = $this->get('getCustomers', [], 'operation.getCustomers returned ex');
+        
+        // Debug: Log the raw response
+        if (app()->environment('local')) {
+            \Log::info('FINA Customers Raw Response', [
+                'data_keys' => array_keys($data),
+                'has_contragents' => isset($data['contragents']),
+                'contragents_count' => isset($data['contragents']) ? count($data['contragents']) : 0,
+                'ex' => $data['ex'] ?? null,
+            ]);
+        }
+        
+        // The API returns customers under 'contragents' key
+        return (array) ($data['contragents'] ?? []);
+    }
+
+    public function vendors(): array
+    {
+        $data = $this->get('getVendors', [], 'operation.getVendors returned ex');
+        
+        // The API returns vendors under 'vendors' key
+        return (array) ($data['vendors'] ?? []);
+    }
+
+    public function customerGroups(): array
+    {
+        return $this->get('getCustomerGroups', [], 'operation.getCustomerGroups returned ex');
+    }
+
+    public function vendorGroups(): array
+    {
+        return $this->get('getVendorGroups', [], 'operation.getVendorGroups returned ex');
+    }
+
+    public function productGroups(): array
+    {
+        return $this->get('getProductGroups', [], 'operation.getProductGroups returned ex');
+    }
+
     public function terminals(): array
     {
         return $this->get('getTerminals', [], 'operation.getTerminals returned ex');
@@ -208,9 +249,13 @@ final class ReferenceApi extends BaseApi
     {
         $data = $this->get('getDocTypes', [], 'operation.getDocTypes returned ex');
 
+        // The API returns data under 'doc_types' key, not 'types'
+        $rawTypes = (array) ($data['doc_types'] ?? []);
+        
+        // Convert the API response to DocTypeDto objects
         return array_map(
-            fn ($t) => DocTypeDto::fromArray((array) $t),
-            (array) ($data['types'] ?? [])
+            fn ($type) => DocTypeDto::fromArray((array) $type),
+            $rawTypes
         );
     }
 
@@ -255,7 +300,7 @@ final class ReferenceApi extends BaseApi
     public function findDocType(int $id): ?DocTypeDto
     {
         foreach ($this->docTypes() as $t) {
-            if ($t->id === $id) {
+            if ($t->type === $id) {
                 return $t;
             }
         }

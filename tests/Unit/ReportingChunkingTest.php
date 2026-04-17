@@ -6,6 +6,7 @@ namespace Fina\Sdk\Laravel\Tests\Unit;
 
 use Carbon\CarbonImmutable;
 use Fina\Sdk\Laravel\Client\FinaClient;
+use Fina\Sdk\Laravel\Reporting\Dto\EntriesJournalResponseDto;
 use Fina\Sdk\Laravel\Tests\TestCase;
 use Illuminate\Support\Facades\Http;
 
@@ -123,7 +124,7 @@ final class ReportingChunkingTest extends TestCase
 
         $dto = $client->reporting()->entriesJournalChunkedTyped($from, $to, 7);
 
-        $this->assertInstanceOf(\Fina\Sdk\Laravel\Reporting\Dto\EntriesJournalResponseDto::class, $dto);
+        $this->assertInstanceOf(EntriesJournalResponseDto::class, $dto);
         $this->assertCount(1, $dto->journals);
         $this->assertSame(10, $dto->journals[0]->id);
         $this->assertSame('v1', $dto->journals[0]->version);

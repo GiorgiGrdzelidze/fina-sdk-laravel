@@ -8,11 +8,13 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation;
 
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Contracts\ValidatesPayload;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
 use Fina\Sdk\Laravel\Operation\Dto\BonusCoeffResponse;
 use Fina\Sdk\Laravel\Operation\Dto\BonusOperationPayload;
 use Fina\Sdk\Laravel\Operation\Dto\BonusOperationResponse;
+use Fina\Sdk\Laravel\Operation\Dto\GiftCardInfoDto;
 use Fina\Sdk\Laravel\Support\PayloadValidator;
 
 /**
@@ -21,7 +23,7 @@ use Fina\Sdk\Laravel\Support\PayloadValidator;
  */
 final class LoyaltyApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'operation');
     }
@@ -66,5 +68,33 @@ final class LoyaltyApi extends BaseApi
         $data = $this->post('saveDocBonusOperation', $body, 'operation.saveDocBonusOperation returned ex');
 
         return BonusOperationResponse::fromArray($data);
+    }
+
+    /**
+     * GET api/operation/getGiftCardInfoByCode/{code}
+     * Returns single gift card info by code.
+     */
+    public function giftCardInfoByCode(string $code): GiftCardInfoDto
+    {
+        $data = $this->get(
+            'getGiftCardInfoByCode/'.rawurlencode($code),
+            [],
+            'operation.getGiftCardInfoByCode returned ex'
+        );
+
+        return GiftCardInfoDto::fromArray((array) ($data['gift'] ?? []));
+    }
+
+    /**
+     * GET api/operation/getBonusCardRestByCode/{code}
+     * Returns bonus card rest by code (raw).
+     */
+    public function bonusCardRestByCode(string $code): array
+    {
+        return $this->get(
+            'getBonusCardRestByCode/'.rawurlencode($code),
+            [],
+            'operation.getBonusCardRestByCode returned ex'
+        );
     }
 }

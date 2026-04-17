@@ -1,6 +1,6 @@
 {
-    "name": "fina/fina-sdk-laravel",
-    "description": "Laravel SDK for integrating with FINA Web API (v6.0). Provides authentication, HTTP client, and typed endpoints.",
+    "name": "giorgigrdzelidze/laravel-fina-sdk",
+    "description": "Laravel SDK for integrating with FINA Web API (v8.0). Provides authentication, HTTP client, and typed endpoints.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -25,10 +25,10 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/cache": "^12.0",
-        "illuminate/http": "^12.0",
-        "illuminate/support": "^12.0",
-        "illuminate/validation": "^12.0"
+        "illuminate/cache": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/validation": "^12.0 || ^13.0"
     },
     "require-dev": {
         "laravel/pint": "^1.18",

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Fina\Sdk\Laravel\Operation;
 
 use DateTimeInterface;
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
 use Fina\Sdk\Laravel\Support\FinaDate;
 
@@ -18,7 +19,7 @@ use Fina\Sdk\Laravel\Support\FinaDate;
  */
 final class ProductsApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'operation');
     }
@@ -130,5 +131,49 @@ final class ProductsApi extends BaseApi
             ['prods' => array_values($productIds)],
             'operation.getProductsRestArray returned ex'
         );
+    }
+
+    /**
+     * GET api/operation/getProductsRestAfter/{after_date}
+     * Returns product rests changed after the given date.
+     */
+    public function restAfter(DateTimeInterface $afterDate): array
+    {
+        $after = rawurlencode(FinaDate::toFina($afterDate));
+
+        return $this->get("getProductsRestAfter/{$after}", [], 'operation.getProductsRestAfter returned ex');
+    }
+
+    /**
+     * POST api/operation/getProductsRestSummary
+     * Request body: { "prods": int[], "stores": int[], "date": "yyyy-MM-ddTHH:mm:ss" }
+     */
+    public function restSummary(array $prods, array $stores, DateTimeInterface $date): array
+    {
+        return $this->post('getProductsRestSummary', [
+            'prods' => array_values($prods),
+            'stores' => array_values($stores),
+            'date' => FinaDate::toFina($date),
+        ], 'operation.getProductsRestSummary returned ex');
+    }
+
+    /**
+     * GET api/operation/getProductsRestByStoreAfter/{store}/{after_date}
+     * Returns product rests changed after the given date for a specific store.
+     */
+    public function restByStoreAfter(int $store, DateTimeInterface $afterDate): array
+    {
+        $after = rawurlencode(FinaDate::toFina($afterDate));
+
+        return $this->get("getProductsRestByStoreAfter/{$store}/{$after}", [], 'operation.getProductsRestByStoreAfter returned ex');
+    }
+
+    /**
+     * GET api/operation/getProvidedServicePrices
+     * Returns provided service prices (same structure as getProductPrices).
+     */
+    public function providedServicePrices(): array
+    {
+        return $this->get('getProvidedServicePrices', [], 'operation.getProvidedServicePrices returned ex');
     }
 }

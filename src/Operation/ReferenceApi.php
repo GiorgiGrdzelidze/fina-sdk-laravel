@@ -8,16 +8,21 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation;
 
+use DateTimeInterface;
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
+use Fina\Sdk\Laravel\Operation\Dto\AccountValueDetailDto;
 use Fina\Sdk\Laravel\Operation\Dto\BankAccountDto;
 use Fina\Sdk\Laravel\Operation\Dto\DiscountTypeDto;
 use Fina\Sdk\Laravel\Operation\Dto\DocTypeDto;
 use Fina\Sdk\Laravel\Operation\Dto\GiftCardDto;
 use Fina\Sdk\Laravel\Operation\Dto\StaffDto;
 use Fina\Sdk\Laravel\Operation\Dto\StaffGroupDto;
+use Fina\Sdk\Laravel\Operation\Dto\TransportationMeanDto;
 use Fina\Sdk\Laravel\Operation\Dto\UnitDto;
 use Fina\Sdk\Laravel\Operation\Dto\UserDto;
 use Fina\Sdk\Laravel\Operation\Dto\UserPermissionsDto;
+use Fina\Sdk\Laravel\Support\FinaDate;
 use Illuminate\Support\Facades\Cache;
 
 /**
@@ -28,7 +33,7 @@ use Illuminate\Support\Facades\Cache;
  */
 final class ReferenceApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'operation');
     }
@@ -152,6 +157,50 @@ final class ReferenceApi extends BaseApi
     public function priceTypes(): array
     {
         return $this->get('getPriceTypes', [], 'operation.getPriceTypes returned ex');
+    }
+
+    // -----------------------
+    // v8.0 reference endpoints
+    // -----------------------
+
+    /**
+     * GET api/operation/getTransportationMeans
+     *
+     * @return TransportationMeanDto[]
+     */
+    public function transportationMeans(): array
+    {
+        $data = $this->get('getTransportationMeans', [], 'operation.getTransportationMeans returned ex');
+
+        return array_map(
+            fn ($t) => TransportationMeanDto::fromArray((array) $t),
+            (array) ($data['transportation_means'] ?? [])
+        );
+    }
+
+    /**
+     * POST api/operation/getAccountValueDetails
+     * Returns detailed account values broken down by entity.
+     *
+     * @return AccountValueDetailDto[]
+     */
+    public function accountValueDetails(string $account, DateTimeInterface $date, ?string $currency = null): array
+    {
+        $body = [
+            'account' => $account,
+            'date' => FinaDate::toFina($date),
+        ];
+
+        if ($currency !== null) {
+            $body['currency'] = $currency;
+        }
+
+        $data = $this->post('getAccountValueDetails', $body, 'operation.getAccountValueDetails returned ex');
+
+        return array_map(
+            fn ($v) => AccountValueDetailDto::fromArray((array) $v),
+            (array) ($data['values'] ?? [])
+        );
     }
 
     // -----------------------

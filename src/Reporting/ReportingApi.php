@@ -10,7 +10,10 @@ namespace Fina\Sdk\Laravel\Reporting;
 
 use Carbon\CarbonImmutable;
 use DateTimeInterface;
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
+use Fina\Sdk\Laravel\Reporting\Dto\AutoServicesOutJournalResponseDto;
+use Fina\Sdk\Laravel\Reporting\Dto\CafeOrderDetailedReportResponseDto;
 use Fina\Sdk\Laravel\Reporting\Dto\CustomersOrderJournalResponseDto;
 use Fina\Sdk\Laravel\Reporting\Dto\CustomersReturnJournalResponseDto;
 use Fina\Sdk\Laravel\Reporting\Dto\CycleReportResponseDto;
@@ -32,7 +35,7 @@ use Fina\Sdk\Laravel\Support\FinaDate;
  */
 final class ReportingApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'reporting');
     }
@@ -182,6 +185,12 @@ final class ReportingApi extends BaseApi
         return $this->getRange('getRealizesJournal', $from, $to);
     }
 
+    /** getAutoServicesOutJournal (raw, v8.0) */
+    public function autoServicesOutJournal(DateTimeInterface $from, DateTimeInterface $to): array
+    {
+        return $this->getRange('getAutoServicesOutJournal', $from, $to);
+    }
+
     // ---------------------------------------------------------------------
     // Journals (chunked, timeout-safe)
     // ---------------------------------------------------------------------
@@ -232,10 +241,17 @@ final class ReportingApi extends BaseApi
         return $this->getRange('getProductsInReturnReport', $from, $to);
     }
 
+    /** getCafeOrderDetailedReport (raw, v8.0) */
+    public function cafeOrderDetailedReport(DateTimeInterface $from, DateTimeInterface $to): array
+    {
+        return $this->getRange('getCafeOrderDetailedReport', $from, $to);
+    }
+
     // ---------------------------------------------------------------------
     // Typed: Cycle Reports
     // ---------------------------------------------------------------------
 
+    /** getCustomersCycleReport (typed). */
     public function customersCycleReportTyped(DateTimeInterface $from, DateTimeInterface $to): CycleReportResponseDto
     {
         return CycleReportResponseDto::fromArray(
@@ -243,6 +259,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getVendorsCycleReport (typed). */
     public function vendorsCycleReportTyped(DateTimeInterface $from, DateTimeInterface $to): CycleReportResponseDto
     {
         return CycleReportResponseDto::fromArray(
@@ -254,6 +271,7 @@ final class ReportingApi extends BaseApi
     // Typed: Money Journals
     // ---------------------------------------------------------------------
 
+    /** getCustomersMoneyJournal (typed). */
     public function customersMoneyJournalTyped(DateTimeInterface $from, DateTimeInterface $to): MoneyJournalResponseDto
     {
         return MoneyJournalResponseDto::fromArray(
@@ -261,6 +279,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getVendorsMoneyJournal (typed). */
     public function vendorsMoneyJournalTyped(DateTimeInterface $from, DateTimeInterface $to): MoneyJournalResponseDto
     {
         return MoneyJournalResponseDto::fromArray(
@@ -268,6 +287,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getCustomersMoneyJournal (chunked + typed). */
     public function customersMoneyJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): MoneyJournalResponseDto
     {
         return MoneyJournalResponseDto::fromArray(
@@ -275,6 +295,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getVendorsMoneyJournal (chunked + typed). */
     public function vendorsMoneyJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): MoneyJournalResponseDto
     {
         return MoneyJournalResponseDto::fromArray(
@@ -282,6 +303,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getEntriesJournal (typed). */
     public function entriesJournalTyped(DateTimeInterface $from, DateTimeInterface $to): EntriesJournalResponseDto
     {
         return EntriesJournalResponseDto::fromArray(
@@ -289,6 +311,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getEntriesJournal (chunked + typed). */
     public function entriesJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 7): EntriesJournalResponseDto
     {
         return EntriesJournalResponseDto::fromArray(
@@ -296,6 +319,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getProductsLastInReport (typed). */
     public function productsLastInReportTyped(DateTimeInterface $from, DateTimeInterface $to): ProductsLastInReportResponseDto
     {
         return ProductsLastInReportResponseDto::fromArray(
@@ -303,6 +327,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getProductsInReturnReport (typed). */
     public function productsInReturnReportTyped(DateTimeInterface $from, DateTimeInterface $to): ProductsInReturnReportResponseDto
     {
         return ProductsInReturnReportResponseDto::fromArray(
@@ -310,6 +335,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getCustomersOrderJournal (typed). */
     public function customersOrderJournalTyped(DateTimeInterface $from, DateTimeInterface $to): CustomersOrderJournalResponseDto
     {
         return CustomersOrderJournalResponseDto::fromArray(
@@ -317,6 +343,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getCustomersOrderJournal (chunked + typed). */
     public function customersOrderJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): CustomersOrderJournalResponseDto
     {
         return CustomersOrderJournalResponseDto::fromArray(
@@ -324,6 +351,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getCustomersReturnJournal (typed). */
     public function customersReturnJournalTyped(DateTimeInterface $from, DateTimeInterface $to): CustomersReturnJournalResponseDto
     {
         return CustomersReturnJournalResponseDto::fromArray(
@@ -331,6 +359,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getCustomersReturnJournal (chunked + typed). */
     public function customersReturnJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): CustomersReturnJournalResponseDto
     {
         return CustomersReturnJournalResponseDto::fromArray(
@@ -338,6 +367,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getProductionsJournal (typed). */
     public function productionsJournalTyped(DateTimeInterface $from, DateTimeInterface $to): ProductionsJournalResponseDto
     {
         return ProductionsJournalResponseDto::fromArray(
@@ -345,6 +375,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getProductionsJournal (chunked + typed). */
     public function productionsJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): ProductionsJournalResponseDto
     {
         return ProductionsJournalResponseDto::fromArray(
@@ -352,6 +383,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDiscountCardsJournal (typed). */
     public function discountCardsJournalTyped(DateTimeInterface $from, DateTimeInterface $to): DiscountCardsJournalResponseDto
     {
         return DiscountCardsJournalResponseDto::fromArray(
@@ -359,6 +391,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDiscountCardsJournal (chunked + typed). */
     public function discountCardsJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): DiscountCardsJournalResponseDto
     {
         return DiscountCardsJournalResponseDto::fromArray(
@@ -366,6 +399,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDocProvidedServicesJournal (typed). */
     public function providedServicesJournalTyped(DateTimeInterface $from, DateTimeInterface $to): ProvidedServicesJournalResponseDto
     {
         return ProvidedServicesJournalResponseDto::fromArray(
@@ -373,6 +407,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDocProvidedServicesJournal (chunked + typed). */
     public function providedServicesJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): ProvidedServicesJournalResponseDto
     {
         return ProvidedServicesJournalResponseDto::fromArray(
@@ -380,6 +415,7 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDocReceivedServicesJournal (typed). */
     public function receivedServicesJournalTyped(DateTimeInterface $from, DateTimeInterface $to): ReceivedServicesJournalResponseDto
     {
         return ReceivedServicesJournalResponseDto::fromArray(
@@ -387,10 +423,49 @@ final class ReportingApi extends BaseApi
         );
     }
 
+    /** getDocReceivedServicesJournal (chunked + typed). */
     public function receivedServicesJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): ReceivedServicesJournalResponseDto
     {
         return ReceivedServicesJournalResponseDto::fromArray(
             $this->getRangeChunked('getDocReceivedServicesJournal', 'journals', $from, $to, $chunkDays)
+        );
+    }
+
+    // ---------------------------------------------------------------------
+    // v8.0: Auto Services Out Journal (typed + chunked)
+    // ---------------------------------------------------------------------
+
+    /** getAutoServicesOutJournal (typed, v8.0). */
+    public function autoServicesOutJournalTyped(DateTimeInterface $from, DateTimeInterface $to): AutoServicesOutJournalResponseDto
+    {
+        return AutoServicesOutJournalResponseDto::fromArray(
+            $this->getRange('getAutoServicesOutJournal', $from, $to)
+        );
+    }
+
+    /** getAutoServicesOutJournal (chunked, v8.0). */
+    public function autoServicesOutJournalChunked(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): array
+    {
+        return $this->getRangeChunked('getAutoServicesOutJournal', 'journals', $from, $to, $chunkDays);
+    }
+
+    /** getAutoServicesOutJournal (chunked + typed, v8.0). */
+    public function autoServicesOutJournalChunkedTyped(DateTimeInterface $from, DateTimeInterface $to, int $chunkDays = 14): AutoServicesOutJournalResponseDto
+    {
+        return AutoServicesOutJournalResponseDto::fromArray(
+            $this->getRangeChunked('getAutoServicesOutJournal', 'journals', $from, $to, $chunkDays)
+        );
+    }
+
+    // ---------------------------------------------------------------------
+    // v8.0: Cafe Order Detailed Report (typed)
+    // ---------------------------------------------------------------------
+
+    /** getCafeOrderDetailedReport (typed, v8.0). */
+    public function cafeOrderDetailedReportTyped(DateTimeInterface $from, DateTimeInterface $to): CafeOrderDetailedReportResponseDto
+    {
+        return CafeOrderDetailedReportResponseDto::fromArray(
+            $this->getRange('getCafeOrderDetailedReport', $from, $to)
         );
     }
 }

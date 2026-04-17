@@ -8,14 +8,16 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation;
 
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
+use Fina\Sdk\Laravel\Operation\Dto\ContragentSubAccountDto;
 
 /**
  * Provides methods for retrieving vendor data from the FINA Operation API.
  */
 final class VendorsApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'operation');
     }
@@ -48,12 +50,14 @@ final class VendorsApi extends BaseApi
     }
 
     /**
-     * getVendorAddresses - Vendor addresses
-     * GET api/operation/getVendorAddresses/{vendor_id}
+     * getVendorAddresses - All vendor addresses
+     * GET api/operation/getVendorAddresses
+     *
+     * Returns all addresses with `contragent_id` identifying the vendor.
      */
-    public function addresses(int $vendorId): array
+    public function addresses(): array
     {
-        return $this->get('getVendorAddresses/'.$vendorId, [], 'operation.getVendorAddresses returned ex');
+        return $this->get('getVendorAddresses', [], 'operation.getVendorAddresses returned ex');
     }
 
     /**
@@ -63,5 +67,21 @@ final class VendorsApi extends BaseApi
     public function additionalFields(): array
     {
         return $this->get('getVendorAdditionalFields', [], 'operation.getVendorAdditionalFields returned ex');
+    }
+
+    /**
+     * getVendorSubAccounts - Vendor sub-accounts
+     * GET api/operation/getVendorSubAccounts
+     *
+     * @return ContragentSubAccountDto[]
+     */
+    public function subAccounts(): array
+    {
+        $data = $this->get('getVendorSubAccounts', [], 'operation.getVendorSubAccounts returned ex');
+
+        return array_map(
+            fn ($s) => ContragentSubAccountDto::fromArray((array) $s),
+            (array) ($data['contragent_sub_accounts'] ?? [])
+        );
     }
 }

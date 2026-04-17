@@ -8,14 +8,18 @@ declare(strict_types=1);
 
 namespace Fina\Sdk\Laravel\Operation;
 
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
+use Fina\Sdk\Laravel\Operation\Dto\ContragentSubAccountDto;
+use Fina\Sdk\Laravel\Operation\Dto\ContragentSubAccountFieldDto;
+use Fina\Sdk\Laravel\Operation\Dto\CustomerAgreementDto;
 
 /**
  * Provides methods for retrieving customer data from the FINA Operation API.
  */
 final class CustomersApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'operation');
     }
@@ -48,12 +52,14 @@ final class CustomersApi extends BaseApi
     }
 
     /**
-     * getCustomerAddresses - Customer addresses
-     * GET api/operation/getCustomerAddresses/{customer_id}
+     * getCustomerAddresses - All customer addresses
+     * GET api/operation/getCustomerAddresses
+     *
+     * Returns all addresses with `contragent_id` identifying the customer.
      */
-    public function addresses(int $customerId): array
+    public function addresses(): array
     {
-        return $this->get('getCustomerAddresses/'.$customerId, [], 'operation.getCustomerAddresses returned ex');
+        return $this->get('getCustomerAddresses', [], 'operation.getCustomerAddresses returned ex');
     }
 
     /**
@@ -63,5 +69,53 @@ final class CustomersApi extends BaseApi
     public function additionalFields(): array
     {
         return $this->get('getCustomerAdditionalFields', [], 'operation.getCustomerAdditionalFields returned ex');
+    }
+
+    /**
+     * getCustomerAgreements - Customer agreements
+     * GET api/operation/getCustomerAgreements
+     *
+     * @return CustomerAgreementDto[]
+     */
+    public function agreements(): array
+    {
+        $data = $this->get('getCustomerAgreements', [], 'operation.getCustomerAgreements returned ex');
+
+        return array_map(
+            fn ($a) => CustomerAgreementDto::fromArray((array) $a),
+            (array) ($data['agreements'] ?? [])
+        );
+    }
+
+    /**
+     * getContragentSubAccountFields - Sub-account field definitions
+     * GET api/operation/getContragentSubAccountFields
+     *
+     * @return ContragentSubAccountFieldDto[]
+     */
+    public function subAccountFields(): array
+    {
+        $data = $this->get('getContragentSubAccountFields', [], 'operation.getContragentSubAccountFields returned ex');
+
+        return array_map(
+            fn ($f) => ContragentSubAccountFieldDto::fromArray((array) $f),
+            (array) ($data['fields'] ?? [])
+        );
+    }
+
+    /**
+     * getCustomerSubAccounts - Customer sub-accounts
+     * GET api/operation/getCustomerSubAccounts
+     *
+     * @return ContragentSubAccountDto[]
+     */
+    public function subAccounts(): array
+    {
+        $data = $this->get('getCustomerSubAccounts', [], 'operation.getCustomerSubAccounts returned ex');
+
+        return array_map(
+            fn ($s) => ContragentSubAccountDto::fromArray((array) $s),
+            (array) ($data['contragent_sub_accounts'] ?? [])
+        );
     }
 }

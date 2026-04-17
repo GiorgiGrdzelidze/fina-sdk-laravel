@@ -3,12 +3,19 @@
 declare(strict_types=1);
 
 /**
- * Operation DTO: gift card reference data.
+ * Operation DTO: detailed gift card info from getGiftCardInfoByCode (v8.0).
  */
 
 namespace Fina\Sdk\Laravel\Operation\Dto;
 
-final readonly class GiftCardDto
+use Fina\Sdk\Laravel\Operation\LoyaltyApi;
+
+/**
+ * Represents detailed gift card information retrieved by card code.
+ *
+ * @see LoyaltyApi::giftCardInfoByCode()
+ */
+final readonly class GiftCardInfoDto
 {
     public function __construct(
         public int $id,
@@ -21,6 +28,9 @@ final readonly class GiftCardDto
         public float $restAmount,
     ) {}
 
+    /**
+     * @param  array<string, mixed>  $data  Raw API response array.
+     */
     public static function fromArray(array $data): self
     {
         return new self(

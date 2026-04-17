@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace Fina\Sdk\Laravel\Reporting;
 
 use DateTimeInterface;
+use Fina\Sdk\Laravel\Client\FinaClient;
 use Fina\Sdk\Laravel\Endpoints\BaseApi;
 use Fina\Sdk\Laravel\Support\FinaDate;
 
@@ -19,7 +20,7 @@ use Fina\Sdk\Laravel\Support\FinaDate;
  */
 final class JournalsApi extends BaseApi
 {
-    public function __construct(\Fina\Sdk\Laravel\Client\FinaClient $client)
+    public function __construct(FinaClient $client)
     {
         parent::__construct($client, 'reporting');
     }
@@ -102,5 +103,11 @@ final class JournalsApi extends BaseApi
     public function realizes(DateTimeInterface $from, DateTimeInterface $to): array
     {
         return $this->range('getRealizesJournal', $from, $to);
+    }
+
+    /** getAutoServicesOutJournal (v8.0) */
+    public function autoServicesOut(DateTimeInterface $from, DateTimeInterface $to): array
+    {
+        return $this->range('getAutoServicesOutJournal', $from, $to);
     }
 }

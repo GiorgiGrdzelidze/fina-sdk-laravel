@@ -12,6 +12,7 @@ use Fina\Sdk\Laravel\Auth\AuthService;
 use Fina\Sdk\Laravel\Auth\TokenStore;
 use Fina\Sdk\Laravel\Exceptions\FinaConfigException;
 use Fina\Sdk\Laravel\Exceptions\FinaHttpException;
+use Fina\Sdk\Laravel\FinaSdkServiceProvider;
 use Fina\Sdk\Laravel\Operation\CustomersApi;
 use Fina\Sdk\Laravel\Operation\DocumentsApi;
 use Fina\Sdk\Laravel\Operation\LoyaltyApi;
@@ -22,6 +23,7 @@ use Fina\Sdk\Laravel\Reporting\JournalsApi;
 use Fina\Sdk\Laravel\Reporting\ReportingApi;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\RequestException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -32,7 +34,7 @@ use Illuminate\Support\Facades\Http;
  *
  * Resolve via `app(FinaClient::class)` or `app('fina')`.
  *
- * @see \Fina\Sdk\Laravel\FinaSdkServiceProvider
+ * @see FinaSdkServiceProvider
  */
 final class FinaClient
 {
@@ -61,7 +63,7 @@ final class FinaClient
     /**
      * @param  array<string, mixed>  $config  Merged FINA SDK configuration (from config/fina.php).
      *
-     * @throws \Fina\Sdk\Laravel\Exceptions\FinaConfigException If required config values are missing.
+     * @throws FinaConfigException If required config values are missing.
      */
     public function __construct(array $config)
     {
@@ -210,7 +212,7 @@ final class FinaClient
         }
     }
 
-    private function send(string $method, string $url, string $token, array $data = []): \Illuminate\Http\Client\Response
+    private function send(string $method, string $url, string $token, array $data = []): Response
     {
         $req = $this->http($token);
 
